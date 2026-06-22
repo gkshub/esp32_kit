@@ -3,14 +3,13 @@
 #include <Adafruit_SSD1306.h>
 #include <Wire.h>
 
-// Pin definitions
-const int ledPin = 5;
 
-// OLED Display definitions
-#define SCREEN_HEIGHT 64 
-#define SCREEN_WIDTH 128 
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+#include "config.h"
+#include "display_manager.h"
+#include "led_indicator.h"
 
+DisplayManager display(Config::Display::SCREEN_WIDTH, Config::Display::SCREEN_HEIGHT, &Wire, -1);
+LedIndicator led_indicator(Config::Pins::redledPin, Config::Pins::redledPin, Config::Pins::redledPin);
 // Task Handlers (Optional, but good practice for tracking tasks)
 TaskHandle_t TaskOLEDHandle = NULL;
 TaskHandle_t TaskLEDHandle = NULL;
@@ -20,21 +19,10 @@ void TaskOLED(void *pvParameters);
 void TaskLED(void *pvParameters);
 
 void setup() {
-  Serial.begin(115200);
-  pinMode(ledPin, OUTPUT);
+  Serial.begin(Config::System::SERIAL_BAUD);
+  led_indicator.hw_init();
 
-  // Initialize OLED
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { 
-    Serial.println(F("SSD1306 allocation failed"));
-    for(;;); // Halt if OLED fails
-  }
-  
-  display.clearDisplay();
-  display.setTextSize(2);
-  display.setTextColor(WHITE);
-  display.setCursor(0, 30);
-  display.println("6789");
-  display.display(); 
+  display.begin(Config::Display::i2cAddr); 
 
   // --- FreeRTOS Task Creation ---
   
@@ -96,6 +84,7 @@ void TaskLED(void *pvParameters) {
   (void) pvParameters;
   
   bool ledState = false;
+  constexpr int ledPin = Config::Pins::redledPin;
 
   for (;;) {
     digitalWrite(ledPin, ledState ? HIGH : LOW);
