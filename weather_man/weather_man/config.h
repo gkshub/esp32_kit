@@ -1,8 +1,10 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-// adhering to modern c++ by using constexpr
+// Comment this line out or change it to 0 to disable the monitor
+#define ENABLE_CPU_MONITOR 0
 
+// adhering to modern c++ by using constexpr
 namespace Config {
 
   namespace System {
@@ -21,8 +23,10 @@ namespace Config {
     constexpr int redledPin = 5;   
 
   }
-  namespace WiFi {
-
+  
+  namespace WeatherApi {
+    constexpr const char* HOST = "http://api.openweathermap.org/data/2.5/weather";
+    constexpr const char* CITY = "London,uk";
   }
   namespace Timing {
     constexpr unsigned long WEATHER_FETCH_INTERVAL = 60 * 1000 *10; // 10mins
