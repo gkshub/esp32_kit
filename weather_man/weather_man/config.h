@@ -25,8 +25,13 @@ namespace Config {
   }
   
   namespace WeatherApi {
-    constexpr const char* HOST = "http://api.openweathermap.org/data/2.5/weather";
-    constexpr const char* CITY = "London,uk";
+    // https://openweathermap.org/api/one-call-4?collection=one_call_api#hourly_how
+    constexpr const char* HOST = "https://api.openweathermap.org/data/4.0/onecall/timeline/1h";
+    //constexpr const char* CITY = "London,uk";
+
+    // coordinates for Brussels/Evere region
+    constexpr float LATITUDE  = 50.87; 
+    constexpr float LONGITUDE = 4.40;
   }
   namespace Timing {
     constexpr unsigned long WEATHER_FETCH_INTERVAL = 60 * 1000 *10; // 10mins

@@ -66,3 +66,23 @@ void DisplayManager::begin(uint8_t i2cAddr) {
   display();
 }
 
+void DisplayManager::showWeather(float temp, const char* description) {
+        clearDisplay();
+
+        setTextSize(2);
+        setTextColor(SSD1306_WHITE);
+        setCursor(0, 0);
+
+        char buf[24];
+        snprintf(buf, sizeof(buf), "%.1f C", temp);
+        print(buf);
+
+        setTextSize(1);
+        setCursor(0, 40);
+        if (description) {
+                print(description);
+        }
+
+        display();
+}
+

@@ -29,3 +29,6 @@ Check that board detection works
 > ```
 > arduino-cli board list
 > ```
+
+## Install the ESP32 core
+

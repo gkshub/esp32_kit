@@ -12,6 +12,8 @@
 // This should not be checked-in
 #include "secrets.h"
 
+#include "weather_manager.h"
+
 DisplayManager display(Config::Display::SCREEN_WIDTH, Config::Display::SCREEN_HEIGHT, &Wire, -1);
 LedIndicator led_indicator(Config::Pins::redledPin, Config::Pins::redledPin, Config::Pins::redledPin);
 // Task Handlers (Optional, but good practice for tracking tasks)
@@ -71,6 +73,9 @@ void setup() {
     1                  // Core ID
   );
 #endif
+
+  // Start weather fetch task (connects to WiFi and updates display)
+  startWeatherTask(&display);
 }
 
 void loop() {

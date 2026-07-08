@@ -20,7 +20,7 @@ class DisplayManager : public Adafruit_SSD1306 {
     DisplayManager(uint8_t w, uint8_t h, TwoWire *twi = &Wire,
                    int8_t rst_pin = -1);
     void begin(uint8_t i2cAddr);
-    //void showWeather(float temp, bool is_rainy);
+    void showWeather(float temp, const char* description);
 
 };
 
